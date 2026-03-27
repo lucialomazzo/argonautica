@@ -12,7 +12,17 @@
   </head>
   <body>
     <header class="hero">
-      <p class="kicker">Dissertation Project</p>
+      <div class="hero-top">
+        <p class="kicker">Dissertation Project</p>
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-label="Switch to light mode"
+          data-theme-toggle
+        >
+          ☀️ Light Mode
+        </button>
+      </div>
       <h1>Argonautica</h1>
       <p class="subtitle">
         A multicultural study of religion, ritual, and identity in the voyage of
@@ -85,5 +95,40 @@
         Pages
       </p>
     </footer>
+
+    <script>
+      const toggleButton = document.querySelector('[data-theme-toggle]');
+      const root = document.documentElement;
+      const storedTheme = localStorage.getItem('theme');
+
+      if (storedTheme === 'light') {
+        root.setAttribute('data-theme', 'light');
+      }
+
+      const updateToggleLabel = () => {
+        const isLight = root.getAttribute('data-theme') === 'light';
+        toggleButton.textContent = isLight ? '🌙 Dark Mode' : '☀️ Light Mode';
+        toggleButton.setAttribute(
+          'aria-label',
+          isLight ? 'Switch to dark mode' : 'Switch to light mode'
+        );
+      };
+
+      updateToggleLabel();
+
+      toggleButton.addEventListener('click', () => {
+        const isLight = root.getAttribute('data-theme') === 'light';
+
+        if (isLight) {
+          root.removeAttribute('data-theme');
+          localStorage.setItem('theme', 'dark');
+        } else {
+          root.setAttribute('data-theme', 'light');
+          localStorage.setItem('theme', 'light');
+        }
+
+        updateToggleLabel();
+      });
+    </script>
   </body>
 </html>
